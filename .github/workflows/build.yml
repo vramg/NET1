@@ -35,5 +35,16 @@ jobs:
            docker login -u ${{ secrets.VRAMGREDDY }} -p ${{ secrets.DOCKERHUB_TOKEN }}
            docker push vramgreddy/netflix:latest
            
+      deploy:
+          needs: build-analyze-scan
+          runs-on: [aws-netflix]
+          steps:
+      - name: Pull the docker image
+        run: docker pull sevenajay/netflix:latest
+      - name: Trivy image scan
+        run: trivy image sevenajay/netflix:latest
+      - name: Run the container netflix
+        run: docker run -d --name netflix -p 8081:80 sevenajay/netflix:latest
+         
       
       
