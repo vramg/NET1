@@ -34,8 +34,7 @@ jobs:
           docker tag netflix vramgreddy/netflix:latest
           docker login -u ${{ secrets.VRAMGREDDY }} -p ${{ secrets.DOCKERHUB_TOKEN }}
           docker push vramgreddy/netflix:latest
-        env:
-          DOCKER_CLI_ACI: 1
+        
   deploy:
     needs: build-analyze-scan
     runs-on: [aws-netflix]
